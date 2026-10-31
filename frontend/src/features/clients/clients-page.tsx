@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { WhatsAppButton } from '@/features/whatsapp/whatsapp-button'
 import { useWorkspace } from '@/features/workspace/workspace-context'
 import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { formatDateTime } from '@/lib/format'
@@ -123,6 +124,7 @@ export function ClientsPage() {
                   <TableHead className="hidden sm:table-cell">{t('clients.email')}</TableHead>
                   <TableHead className="hidden lg:table-cell">{t('clients.phone')}</TableHead>
                   <TableHead className="hidden lg:table-cell">{t('common.updatedAt')}</TableHead>
+                  <TableHead className="w-10"><span className="sr-only">WhatsApp</span></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -143,6 +145,9 @@ export function ClientsPage() {
                     <TableCell className="hidden lg:table-cell">{c.phone ?? '—'}</TableCell>
                     <TableCell className="hidden text-muted-foreground lg:table-cell">
                       {formatDateTime(c.updatedAt)}
+                    </TableCell>
+                    <TableCell className="w-10 py-1 text-right">
+                      {c.phone ? <WhatsAppButton variant="icon" client={c} /> : null}
                     </TableCell>
                   </TableRow>
                 ))}

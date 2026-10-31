@@ -14,6 +14,7 @@ import { orderExtrasApi } from '@/features/orders/extras-api'
 import { useWorkspace } from '@/features/workspace/workspace-context'
 import i18n, { SUPPORTED_LANGUAGES } from '@/i18n'
 import { formatMoney, todayIso } from '@/lib/format'
+import { whatsappNumber, whatsappUrl } from '@/lib/phone'
 import { cn } from '@/lib/utils'
 
 /*
@@ -262,7 +263,7 @@ function ReminderBody({ order }: { order: Order }) {
   }, [lang, tone, order, link, withRequisites, requisites.data, workspaceName])
 
   const text = edited ?? generated
-  const phone = client.data?.client.phone?.replace(/\D/g, '') ?? ''
+  const phone = whatsappNumber(client.data?.client.phone)
   const email = client.data?.client.email ?? ''
   const subject = i18n.getFixedT(lang)('remind.subject', { number: order.orderNumber })
 
@@ -337,7 +338,7 @@ function ReminderBody({ order }: { order: Order }) {
         </Button>
         {phone ? (
           <Button asChild variant="outline">
-            <a href={`https://wa.me/${phone}?text=${encodeURIComponent(text)}`} target="_blank" rel="noreferrer">
+            <a href={whatsappUrl(phone, text)} target="_blank" rel="noreferrer">
               <MessageCircle />
               WhatsApp
             </a>

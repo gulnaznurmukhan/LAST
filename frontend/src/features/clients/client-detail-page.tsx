@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { OrderFormDialog } from '@/features/orders/order-form-dialog'
 import { OrdersTable } from '@/features/orders/orders-table'
+import { WhatsAppButton } from '@/features/whatsapp/whatsapp-button'
 import { useWorkspace } from '@/features/workspace/workspace-context'
 import { useErrorToast } from '@/hooks/use-api-toast'
 import { ApiError } from '@/lib/api'
@@ -90,7 +91,9 @@ export function ClientDetailPage() {
           </>
         }
         actions={
-          canManageRecords ? (
+          <>
+            {client.archived ? null : <WhatsAppButton client={client} />}
+            {canManageRecords ? (
             <>
               <Button variant="outline" onClick={() => setEditing(true)}>
                 <Pencil />
@@ -116,7 +119,8 @@ export function ClientDetailPage() {
                 />
               )}
             </>
-          ) : null
+            ) : null}
+          </>
         }
       />
 
@@ -131,7 +135,12 @@ export function ClientDetailPage() {
                 {client.email ? <a href={`mailto:${client.email}`} className="hover:underline">{client.email}</a> : null}
               </Field>
               <Field label={t('clients.phone')}>
-                {client.phone ? <a href={`tel:${client.phone}`} className="hover:underline">{client.phone}</a> : null}
+                {client.phone ? (
+                  <span className="flex items-center gap-1">
+                    <a href={`tel:${client.phone}`} className="hover:underline">{client.phone}</a>
+                    <WhatsAppButton variant="icon" client={client} />
+                  </span>
+                ) : null}
               </Field>
               <Field label={t('clients.address')}>{client.address}</Field>
               <Field label={t('clients.notes')}>

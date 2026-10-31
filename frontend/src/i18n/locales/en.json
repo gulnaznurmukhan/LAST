@@ -172,7 +172,10 @@
     "IMPORT_FILE_SIZE": "The file must be smaller than 1 MB.",
     "IMPORT_EMPTY": "The file is empty.",
     "IMPORT_NO_NAME_COLUMN": "The file has no name column (name / имя / аты).",
-    "IMPORT_TOO_MANY_ROWS": "A file can contain at most 1000 rows."
+    "IMPORT_TOO_MANY_ROWS": "A file can contain at most 1000 rows.",
+    "AI_DISABLED": "The AI assistant is not configured on the server.",
+    "AI_UNAVAILABLE": "The AI is not responding right now. Please try again in a minute.",
+    "AI_BUSY": "The AI is handling too many requests. Wait a moment and try again."
   },
   "nav": {
     "menu": "Menu",
@@ -720,5 +723,80 @@
     "requisites": "Payment details:",
     "link": "Order online: {{url}}",
     "subject": "Payment for order {{number}}"
+  },
+  "ai": {
+    "fab": "AI assistant",
+    "open": "Open the AI assistant",
+    "title": "AI assistant",
+    "subtitle": "Knows the clients, orders and payments of “{{name}}”",
+    "intro": "Ask about your business — the assistant answers from your real data. For example:",
+    "suggestions": {
+      "today": "What should I do first today?",
+      "debtors": "Who owes me money and how much?",
+      "overdue": "Which orders are overdue or due soon?",
+      "week": "Make a work plan for this week",
+      "growth": "How are sales going and what can be improved?"
+    },
+    "placeholder": "Ask anything…",
+    "send": "Send",
+    "thinking": "Thinking…",
+    "retry": "Retry",
+    "newChat": "New chat",
+    "disclaimer": "AI can make mistakes — double-check important numbers.",
+    "insights": {
+      "title": "AI daily briefing",
+      "hint": "What matters today: deadlines, debts, payment trend and a tip",
+      "generate": "Get the briefing",
+      "refresh": "Refresh"
+    },
+    "fromMessage": {
+      "title": "Fill in from the client's message (AI)",
+      "hint": "Paste a WhatsApp or Instagram message — the AI fills in the title, details, amount and deadline and finds the client.",
+      "placeholder": "Hi! I need a 2 kg chocolate cake by Friday, budget 25,000 KZT. Aigerim, +7 701 123 45 67",
+      "fill": "Fill in the form",
+      "filled": "Form filled in — check the fields before saving",
+      "filledWithClient": "Form filled in and client found — check the fields",
+      "newClient": "New client: {{name}}",
+      "createClient": "Add client",
+      "clientCreated": "Client “{{name}}” added"
+    }
+  },
+  "wa": {
+    "title": "WhatsApp: {{name}}",
+    "hint": "Pick the reason and the text is filled in. Edit it or let the AI write it, then open the chat.",
+    "write": "Message {{name}} on WhatsApp",
+    "order": "Order",
+    "noOrder": "No order",
+    "purpose": "Reason",
+    "purposes": {
+      "GREETING": "Greeting",
+      "ORDER_CONFIRMED": "Order accepted",
+      "ORDER_READY": "Order ready",
+      "PAYMENT_REMINDER": "Payment reminder",
+      "THANK_YOU": "Thank you",
+      "REVIEW_REQUEST": "Ask for a review",
+      "CUSTOM": "Custom message"
+    },
+    "pickOrder": "Choose an order for this reason.",
+    "aiTitle": "Write with AI",
+    "tones": {
+      "FRIENDLY": "Friendly",
+      "NEUTRAL": "Neutral",
+      "FORMAL": "Formal"
+    },
+    "aiPlaceholder": "Wishes, e.g. offer delivery tomorrow",
+    "aiWrite": "Write",
+    "open": "Open WhatsApp",
+    "noPhone": "Enter the client's phone number to open the chat.",
+    "due": " Due {{date}}.",
+    "templates": {
+      "GREETING": "Hello {{name}}! This is {{business}}. Thank you for reaching out. How can we help?",
+      "ORDER_CONFIRMED": "Hello {{name}}! Your order {{number}} “{{title}}” is accepted. The total is {{total}}.{{due}} If you have any questions, just write here.",
+      "ORDER_READY": "Hello {{name}}! Your order {{number}} “{{title}}” is ready. When would you like to pick it up or receive the delivery?",
+      "PAYMENT_REMINDER": "Hello {{name}}! A quick reminder about order {{number}} “{{title}}”: {{amount}} is still due.{{due}} If you have already paid, just let me know. Thank you!",
+      "THANK_YOU": "{{name}}, thank you for order {{number}}! It was a pleasure working with you. We hope to see you again.",
+      "REVIEW_REQUEST": "Hello {{name}}! We hope you liked order {{number}}. Would you leave a short review? It helps us a lot.",
+      "CUSTOM": "Hello {{name}}!"
+    }
   }
 }

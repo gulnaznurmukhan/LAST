@@ -77,7 +77,7 @@ fi
 : "${PORT:=80}";                               export PORT
 : "${SPRING_PROFILES_ACTIVE:=prod}";           export SPRING_PROFILES_ACTIVE
 : "${DB_POOL_SIZE:=3}";                        export DB_POOL_SIZE
-: "${APP_PUBLIC_URL:=https://course-nacy.vercel.app}"; export APP_PUBLIC_URL
+[ -n "${APP_PUBLIC_URL:-}" ] || echo "[entrypoint] WARNING: APP_PUBLIC_URL is not set: links in emails will be wrong. Set it to the frontend URL (https://<frontend>.vercel.app)." >&2
 : "${SMTP_HOST:=smtp-relay.brevo.com}";        export SMTP_HOST
 : "${SMTP_PORT:=587}";                         export SMTP_PORT
 : "${SMTP_AUTH:=true}";                        export SMTP_AUTH
@@ -86,7 +86,7 @@ fi
 
 # Non-secret summary for the runtime logs
 db_host="${DB_URL#jdbc:postgresql://}"; db_host="${db_host%%/*}"
-echo "[entrypoint] port=$PORT profile=$SPRING_PROFILES_ACTIVE db_host=${db_host:-MISSING} db_user=$([ -n "$DB_USERNAME" ] && echo set || echo MISSING) db_password=$([ -n "$DB_PASSWORD" ] && echo set || echo MISSING) smtp_user=$([ -n "${SMTP_USERNAME:-}" ] && echo set || echo MISSING) public_url=$APP_PUBLIC_URL"
+echo "[entrypoint] port=$PORT profile=$SPRING_PROFILES_ACTIVE db_host=${db_host:-MISSING} db_user=$([ -n "$DB_USERNAME" ] && echo set || echo MISSING) db_password=$([ -n "$DB_PASSWORD" ] && echo set || echo MISSING) smtp_user=$([ -n "${SMTP_USERNAME:-}" ] && echo set || echo MISSING) public_url=${APP_PUBLIC_URL:-MISSING} gemini=$([ -n "${GEMINI_API_KEY:-}" ] && echo set || echo MISSING)"
 
 if [ "$#" -gt 0 ]; then exec "$@"; fi
 exec java $JAVA_OPTS -jar /app/app.jar

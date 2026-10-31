@@ -12,12 +12,15 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
+import type { MessagePurpose } from '@/features/ai/api'
+import { clientsApi } from '@/features/clients/api'
 import { PaymentsCard } from '@/features/payments/payments-card'
+import { WhatsAppButton } from '@/features/whatsapp/whatsapp-button'
 import { useWorkspace } from '@/features/workspace/workspace-context'
 import { useErrorToast } from '@/hooks/use-api-toast'
 import { ApiError } from '@/lib/api'
 import { formatDate, formatDateTime, formatMoney } from '@/lib/format'
-import { ordersApi } from './api'
+import { ordersApi, type Order } from './api'
 import { ItemsCard } from './items-card'
 import { OrderFormDialog } from './order-form-dialog'
 import { ShareLinkCard } from './share-link-card'
@@ -85,6 +88,14 @@ function NotesSection({ orderId }: { orderId: string }) {
   )
 }
 
+/** What the client most likely needs to hear about this order right now. */
+function suggestedPurpose(o: Order): MessagePurpose {
+  if (o.status === 'NEW' || o.status === 'CONFIRMED') return o.overdue && o.balance > 0 ? 'PAYMENT_REMINDER' : 'ORDER_CONFIRMED'
+  if (o.status === 'IN_PROGRESS') return 'ORDER_READY'
+  if (o.status === 'COMPLETED') return o.balance > 0 ? 'PAYMENT_REMINDER' : 'REVIEW_REQUEST'
+  return 'CUSTOM'
+}
+
 export function OrderDetailPage() {
   const { t } = useTranslation()
   const { orderId = '' } = useParams()
@@ -100,6 +111,12 @@ export function OrderDetailPage() {
     queryKey: ['ws', workspaceId, 'orders', 'activity', orderId],
     queryFn: () => ordersApi.activity(workspaceId, orderId),
     enabled: order.isSuccess,
+  })
+  const clientId = order.data?.client.id
+  const client = useQuery({
+    queryKey: ['ws', workspaceId, 'clients', 'detail', clientId],
+    queryFn: () => clientsApi.get(workspaceId, clientId!),
+    enabled: Boolean(clientId),
   })
 
   if (order.isPending) return <ListSkeleton rows={6} />
@@ -142,6 +159,9 @@ export function OrderDetailPage() {
         }
         actions={
           <>
+            {client.data && !o.archived ? (
+              <WhatsAppButton client={client.data.client} order={o} purpose={suggestedPurpose(o)} />
+            ) : null}
             {o.allowedTransitions.map((status) =>
               status === 'CANCELLED' ? (
                 <ConfirmDialog

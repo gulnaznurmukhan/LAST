@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { AiAssistant } from '@/features/ai/ai-assistant'
 import { useCurrentUser, useLogout } from '@/features/auth/use-auth'
 import { NotificationBell } from '@/features/notifications/notification-bell'
 import { PreferencesSync } from '@/features/settings/use-preferences'
@@ -241,11 +242,12 @@ export function AppShell() {
             <CompactPreferences />
             <NotificationBell />
           </header>
-          <main id="main" key={pathname} className="min-w-0 flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+          <main id="main" key={pathname} className="min-w-0 flex-1 px-4 pt-5 pb-24 sm:px-6 sm:pt-6 lg:px-8">
             <Outlet />
           </main>
         </SidebarInset>
       </SidebarProvider>
+      <AiAssistant />
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} navItems={navItems} />
       <Toaster richColors position="top-right" />
     </TooltipProvider>

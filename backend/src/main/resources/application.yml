@@ -115,6 +115,13 @@ app:
   tokens:
     verification-ttl: 24h
     password-reset-ttl: 30m
+  # Google Gemini for the AI assistant. Empty key = AI features are hidden.
+  ai:
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.5-flash-lite}
+    base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta}
+    # Vercel gives a request about 30 s; leave room for the database work around the call
+    timeout: ${GEMINI_TIMEOUT:20s}
 
 springdoc:
   api-docs:

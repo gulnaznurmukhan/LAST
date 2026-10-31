@@ -8,6 +8,7 @@ import { ActivityList } from '@/components/activity-list'
 import { ApiErrorAlert } from '@/components/api-error-alert'
 import { ListSkeleton, Page, PageHeader } from '@/components/page-parts'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { AiInsights } from '@/features/ai/ai-insights'
 import { useCurrentUser } from '@/features/auth/use-auth'
 import { OrderStatusBadge } from '@/features/orders/order-status-badge'
 import { useWorkspace } from '@/features/workspace/workspace-context'
@@ -163,6 +164,8 @@ export function DashboardPage() {
         <Figure index={2} label={t('dashboard.completedOrders')} value={d.completedOrders} />
         <Figure index={3} label={t('dashboard.overdueOrders')} value={d.overdueOrders} tone="warning" to="/orders" />
       </section>
+
+      <AiInsights />
 
       <div className="cf-stagger mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
         {/* 2. money sheet */}

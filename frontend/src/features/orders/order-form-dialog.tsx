@@ -13,6 +13,8 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import type { OrderDraft } from '@/features/ai/api'
+import { OrderFromMessage } from '@/features/ai/order-from-message'
 import { clientsApi } from '@/features/clients/api'
 import { workspaceApi } from '@/features/workspace/api'
 import { useWorkspace } from '@/features/workspace/workspace-context'
@@ -119,6 +121,19 @@ export function OrderFormDialog({ open, onOpenChange, order, defaultClientId }: 
 
   const noClients = !order && clients.data?.totalItems === 0
 
+  const applyDraft = (draft: OrderDraft, clientId: string | null) => {
+    const set = (name: 'title' | 'description' | 'totalAmount' | 'deadline' | 'clientId', value: string | null) => {
+      if (value) form.setValue(name, value, { shouldDirty: true })
+    }
+    set('clientId', clientId)
+    set('title', draft.title)
+    set('description', draft.description)
+    set('totalAmount', draft.totalAmount)
+    set('deadline', draft.deadline)
+    const currency = CURRENCIES.find((c) => c === draft.currency)
+    if (currency) form.setValue('currency', currency, { shouldDirty: true })
+  }
+
   return (
     <Dialog
       open={open}
@@ -133,6 +148,7 @@ export function OrderFormDialog({ open, onOpenChange, order, defaultClientId }: 
         </DialogHeader>
         <form onSubmit={onSubmit} noValidate className="grid gap-4">
           <ApiErrorAlert error={save.error} />
+          {order ? null : <OrderFromMessage onDraft={applyDraft} />}
 
           {order ? null : (
             <div className="grid gap-2">
